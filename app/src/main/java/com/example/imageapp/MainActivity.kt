@@ -135,7 +135,6 @@ fun ImageStructure(
     }
 }
 
-@Preview
 @Composable
 fun ImageContent(){
 
