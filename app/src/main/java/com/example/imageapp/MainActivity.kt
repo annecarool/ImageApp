@@ -1,8 +1,13 @@
 package com.example.imageapp
 
 import android.os.Bundle
+import android.os.Message
+import android.text.Html.ImageGetter
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -12,14 +17,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +51,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.example.imageapp.dados.FonteDeDados
+import com.example.imageapp.model.IdImagemDescricao
 import com.example.imageapp.ui.theme.ImageAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -45,7 +64,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ImageContent()
+                    AppPhotoGallery()
                 }
             }
         }
@@ -53,23 +72,27 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ImageStructure(
-    idImage: Int,
-    idDescricao: Int,
-    idAutor: Int
-){
+fun AppPhotoGallery() {
+
+    var expandir by remember { mutableStateOf(false) }
+
     Card(
         shape = RoundedCornerShape(4.dp),
-        colors = CardDefaults.cardColors(Color(255,255,255)),
+        colors = CardDefaults.cardColors(Color(255, 255, 255)),
         elevation = CardDefaults.cardElevation(4.dp),
-        border = BorderStroke(2.dp, Color(255,255,255)),
+        border = BorderStroke(2.dp, Color(255, 255, 255)),
         modifier = Modifier
             .fillMaxSize()
-    ){
+    ) {
         Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+            modifier = Modifier
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessMedium
+                    )
+                )
+        ) {
 
             Text(
                 text = stringResource(id = R.string.title),
@@ -85,6 +108,24 @@ fun ImageStructure(
                 lineHeight = 1.em
             )
 
+            LazyColumn() {
+                items(FonteDeDados().carregarListaMolduras()) { idImagemDescricao ->
+                    ImageStructure(idImagemDescricao)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ImageStructure(
+
+    idImagemDescricao: IdImagemDescricao
+){
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
             Card(
             shape = RoundedCornerShape(4.dp),
             colors = CardDefaults.cardColors(Color(255,255,255)),
@@ -95,7 +136,7 @@ fun ImageStructure(
                 .padding(20.dp)
             ){
                 Image(
-                    painter = painterResource(id = idImage),
+                    painter = painterResource(id = idImagemDescricao.idImage),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -106,7 +147,7 @@ fun ImageStructure(
                 )
 
                 Text(
-                    text = stringResource(id = idDescricao),
+                    text = stringResource(id = idImagemDescricao.idDescricao),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 5.dp),
@@ -119,7 +160,7 @@ fun ImageStructure(
                 )
 
                 Text(
-                    text = stringResource(id = idAutor),
+                    text = stringResource(id = idImagemDescricao.idAutor),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 10.dp),
@@ -130,67 +171,40 @@ fun ImageStructure(
                     fontWeight = FontWeight.ExtraLight
                 )
             }
-        }
+
+    }
+}
+
+@Composable
+fun ExpandirTitulo(
+    expandir: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier
+    ){
+        Icon(
+            imageVector =
+                if (expandir) Icons.Filled.KeyboardArrowUp
+                else Icons.Filled.KeyboardArrowDown,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.secondary
+        )
 
     }
 }
 @Preview
 @Composable
 fun ImageContent(){
+//
+//    ImageStructure(
+//        idImage = R.drawable.bluesman,
+//        idDescricao = R.string.Bluesman,
+//        idAutor = R.string.autor
+//    )
 
-    ImageStructure(
-        idImage = R.drawable.bluesman,
-        idDescricao = R.string.Bluesman,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.queimaminhapele,
-        idDescricao = R.string.QueimaMinhaPele,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.medesculpajayz,
-        idDescricao = R.string.MeDesculpaJayZ,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.minotaurodeborges,
-        idDescricao = R.string.MinotauroDeBorges,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.kanyewestdabahia,
-        idDescricao = R.string.KanyeWestDaBahia,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.flamingos,
-        idDescricao = R.string.Flamingos,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.girassoisdevangogh,
-        idDescricao = R.string.GirassoisDeVanGogh,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.pretoeprata,
-        idDescricao = R.string.PretoEPrata,
-        idAutor = R.string.autor
-    )
-
-    ImageStructure(
-        idImage = R.drawable.bbking,
-        idDescricao = R.string.BBKing,
-        idAutor = R.string.autor
-    )
 
 }
 
