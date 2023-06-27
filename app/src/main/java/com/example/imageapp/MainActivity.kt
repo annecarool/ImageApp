@@ -73,7 +73,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
 @Composable
 fun AppPhotoGallery() {
 
