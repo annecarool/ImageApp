@@ -11,8 +11,10 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -62,7 +64,7 @@ class MainActivity : ComponentActivity() {
             ImageAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color(255, 255, 255)
                 ) {
                     AppPhotoGallery()
                 }
@@ -71,47 +73,70 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Preview
 @Composable
 fun AppPhotoGallery() {
 
     var expandir by remember { mutableStateOf(false) }
 
-    Card(
-        shape = RoundedCornerShape(4.dp),
-        colors = CardDefaults.cardColors(Color(255, 255, 255)),
-        elevation = CardDefaults.cardElevation(4.dp),
-        border = BorderStroke(2.dp, Color(255, 255, 255)),
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Column(
+    Column() {
+
+        Card(
+            shape = RoundedCornerShape(10.dp),
+            colors = CardDefaults.cardColors(Color(255, 255, 255)),
+            elevation = CardDefaults.cardElevation(4.dp),
+            border = BorderStroke(2.dp, Color(255, 255, 255)),
             modifier = Modifier
-                .animateContentSize(
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioNoBouncy,
-                        stiffness = Spring.StiffnessMedium
-                    )
-                )
+                .fillMaxWidth()
         ) {
+            Row() {
+                Column(
+                    modifier = Modifier
+                        .animateContentSize(
+                            animationSpec = spring(
+                                dampingRatio = Spring.DampingRatioNoBouncy,
+                                stiffness = Spring.StiffnessMedium
+                            )
+                        )
+                ) {
 
-            Text(
-                text = stringResource(id = R.string.title),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp)
-                    .padding(top = 10.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 40.sp,
-                color = Color(0, 0, 0),
-                fontFamily = FontFamily.Cursive,
-                fontWeight = FontWeight.W700,
-                lineHeight = 1.em
-            )
+                    Text(
+                        text = stringResource(id = R.string.title),
+                        modifier = Modifier
+                            .clickable { expandir = !expandir }
+                            .padding(20.dp),
+                        textAlign = TextAlign.Center,
+                        fontSize = 40.sp,
+                        color = Color(0, 0, 0),
+                        fontFamily = FontFamily.Cursive,
+                        fontWeight = FontWeight.W700,
+                        lineHeight = 1.em
+                    )
+                    if (expandir == true) {
+                        Text(
+                            text = stringResource(id = R.string.info),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp)
+                                .padding(bottom = 20.dp),
+                            textAlign = TextAlign.Center,
+                            fontSize = 15.sp,
+                            color = Color(0, 0, 0),
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.ExtraLight,
+                            lineHeight = 1.em
+                        )
+            }
 
-            LazyColumn() {
-                items(FonteDeDados().carregarListaMolduras()) { idImagemDescricao ->
-                    ImageStructure(idImagemDescricao)
                 }
+                ExpandirTitulo(expandir = false, onClick = { expandir = !expandir })
+            }
+
+        }
+
+        LazyColumn() {
+            items(FonteDeDados().carregarListaMolduras()) { idImagemDescricao ->
+                ImageStructure(idImagemDescricao)
             }
         }
     }
@@ -119,58 +144,57 @@ fun AppPhotoGallery() {
 
 @Composable
 fun ImageStructure(
-
     idImagemDescricao: IdImagemDescricao
-){
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Card(
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Card(
             shape = RoundedCornerShape(4.dp),
-            colors = CardDefaults.cardColors(Color(255,255,255)),
+            colors = CardDefaults.cardColors(Color(255, 255, 255)),
             elevation = CardDefaults.cardElevation(4.dp),
-            border = BorderStroke(2.dp, Color(255,255,255)),
+            border = BorderStroke(2.dp, Color(255, 255, 255)),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)
-            ){
-                Image(
-                    painter = painterResource(id = idImagemDescricao.idImage),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .size(300.dp)
-                        .padding(10.dp)
-                        .border(BorderStroke(2.dp, Color(255, 255, 255))),
-                )
+        ) {
+            Image(
+                painter = painterResource(id = idImagemDescricao.idImage),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(300.dp)
+                    .padding(10.dp)
+                    .border(BorderStroke(2.dp, Color(255, 255, 255))),
+            )
 
-                Text(
-                    text = stringResource(id = idImagemDescricao.idDescricao),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 5.dp),
-                    textAlign = TextAlign.Center,
-                    lineHeight = 1.em,
-                    fontSize = 15.sp,
-                    color = Color(0, 0, 0),
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Normal
-                )
+            Text(
+                text = stringResource(id = idImagemDescricao.idDescricao),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 5.dp),
+                textAlign = TextAlign.Center,
+                lineHeight = 1.em,
+                fontSize = 15.sp,
+                color = Color(0, 0, 0),
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Normal
+            )
 
-                Text(
-                    text = stringResource(id = idImagemDescricao.idAutor),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 10.dp),
-                    textAlign = TextAlign.Center,
-                    fontSize = 15.sp,
-                    color = Color(0, 0, 0),
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.ExtraLight
-                )
-            }
+            Text(
+                text = stringResource(id = idImagemDescricao.idAutor),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp),
+                textAlign = TextAlign.Center,
+                fontSize = 15.sp,
+                color = Color(0, 0, 0),
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.ExtraLight
+            )
+        }
 
     }
 }
@@ -184,27 +208,15 @@ fun ExpandirTitulo(
     IconButton(
         onClick = onClick,
         modifier = Modifier
-    ){
+    ) {
         Icon(
             imageVector =
-                if (expandir) Icons.Filled.KeyboardArrowUp
-                else Icons.Filled.KeyboardArrowDown,
+            if (expandir) Icons.Filled.KeyboardArrowUp
+            else Icons.Filled.KeyboardArrowDown,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.secondary
+            tint = Color(0,0,0)
         )
 
     }
-}
-@Preview
-@Composable
-fun ImageContent(){
-//
-//    ImageStructure(
-//        idImage = R.drawable.bluesman,
-//        idDescricao = R.string.Bluesman,
-//        idAutor = R.string.autor
-//    )
-
-
 }
 

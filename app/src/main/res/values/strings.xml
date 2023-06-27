@@ -4,21 +4,23 @@
 
     <string name="title"> Quotes in the \n Bluesman Album </string>
 
-    <string name="Bluesman"> \"Jovem Basquiat, meu mundo é diferente \n Eu sou um dos poucos que não esconde o que sente"\ </string>
+    <string name="info"> Bluesman é um disco do rapper Baco Exu do Blues, lançado em novembro de 2018. Entre os pensadores contemporâneos que estão usando o rap brasileiro como veículo de transformação social, o nome de Baco Exu do Blues se destaca. Bluesman vem confirmar o seu talento e deixar evidentes as pautas políticas e sociais que promove. </string>
 
-    <string name="QueimaMinhaPele"> \"Fotografar a insegurança é tão difícil \n Eu disfarço tudo com cigarro, cerveja e sorriso"\ </string>
+    <string name="Bluesman"> \"Jovem Basquiat, meu mundo é diferente \n Eu sou um dos poucos que não esconde o que sente\" </string>
 
-    <string name="MeDesculpaJayZ"> \"Se eu minto para mim imagina pra você meu bem \n Pra mim também"\ </string>
+    <string name="QueimaMinhaPele"> \"Fotografar a insegurança é tão difícil \n Eu disfarço tudo com cigarro, cerveja e sorriso\" </string>
 
-    <string name="MinotauroDeBorges"> \"Museus estão a procura de mármore negro \n Pra fazer uma estátua minha"\ </string>
+    <string name="MeDesculpaJayZ"> \"Se eu minto para mim imagina pra você meu bem \n Pra mim também\" </string>
 
-    <string name="KanyeWestDaBahia"> \"Meus ancestrais se banhavam com ouro \n Olhe bem pra minha pele ela reluz, seu tolo"\ </string>
+    <string name="MinotauroDeBorges"> \"Museus estão a procura de mármore negro \n Pra fazer uma estátua minha\" </string>
 
-    <string name="Flamingos"> \"Coração partido espero que cê repare \n Meu tênis branquíssimo espero que cê repare"\ </string>
+    <string name="KanyeWestDaBahia"> \"Meus ancestrais se banhavam com ouro \n Olhe bem pra minha pele ela reluz, seu tolo\" </string>
 
-    <string name="GirassoisDeVanGogh"> \"Somos livres como girassois de Van Gogh \n Gira, gira, girassois de Van Gogh"\ </string>
+    <string name="Flamingos"> \"Coração partido espero que cê repare \n Meu tênis branquíssimo espero que cê repare\" </string>
 
-    <string name="PretoEPrata"> \"Linhas caras, rimas \n De alfaiataria fina"\ </string>
+    <string name="GirassoisDeVanGogh"> \"Somos livres como girassois de Van Gogh \n Gira, gira, girassois de Van Gogh\" </string>
+
+    <string name="PretoEPrata"> \"Linhas caras, rimas \n De alfaiataria fina\""\ </string>
 
     <string name="BBKing"> \"Eu vivi, eu caí, eu me consertei \n Sou resultado das pessoas que eu amei\" </string>
 
